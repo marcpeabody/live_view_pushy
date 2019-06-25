@@ -20,6 +20,7 @@ defmodule LiveViewPushyWeb.Router do
     get "/", PageController, :index
 
     live "/pictures", PicturesLive
+    live "/pictures/:id", PicturesLive
   end
 
   # Other scopes may use custom stacks.

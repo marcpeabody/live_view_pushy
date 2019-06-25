@@ -1,5 +1,6 @@
 defmodule LiveViewPushyWeb.PicturesLive do
   use Phoenix.LiveView
+  alias LiveViewPushyWeb.Router.Helpers, as: Routes
 
   @pictures %{
     "ySMOWp3oBZk" => %{
@@ -49,8 +50,21 @@ defmodule LiveViewPushyWeb.PicturesLive do
   end
 
   def handle_event("show", id, socket) do
+    {:noreply,
+      live_redirect(
+        socket,
+        to: Routes.live_path(socket, LiveViewPushyWeb.PicturesLive, id)
+      )
+    }
+  end
+
+  def handle_params(%{"id" => id}, _uri, socket) do
     picture = @pictures[id]
     {:noreply, assign(socket, :selected_picture, picture)}
+  end
+
+  def handle_params(_params, _uri, socket) do
+    {:noreply, assign(socket, :selected_picture, nil)}
   end
 
   defp picture_url(img, :thumb), do: "#{img}?w=250&fit=crop"
