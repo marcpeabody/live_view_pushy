@@ -21,6 +21,9 @@ defmodule LiveViewPushyWeb.Router do
 
     live "/pictures", PicturesLive
     live "/pictures/:id", PicturesLive
+
+    live "/moon", MoonLive
+    live "/moon/:moon", MoonLive
   end
 
   # Other scopes may use custom stacks.
