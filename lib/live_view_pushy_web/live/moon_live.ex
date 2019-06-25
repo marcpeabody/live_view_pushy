@@ -21,12 +21,15 @@ defmodule LiveViewPushyWeb.MoonLive do
   end
 
   def handle_event("start", _, socket) do
-    socket =
-      socket
-      |> assign(:moon_idx, 0)
-      |> assign(:running, true)
+    socket = case socket.assigns[:running] do
+      true -> socket
+      _ ->
+        Process.send_after(self(), "next_moon", 100)
+        socket
+          |> assign(:running, true)
+          |> assign(:moon_idx, 0)
+    end
 
-    Process.send_after(self(), "next_moon", 100)
     {:noreply, socket}
   end
 
